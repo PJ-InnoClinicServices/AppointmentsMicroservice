@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.IRepositories;
+﻿
+using DataAccessLayer.Interfaces.IRepositories;
 using DataAccessLayer.Repositories;
 
 namespace DataAccessLayer;

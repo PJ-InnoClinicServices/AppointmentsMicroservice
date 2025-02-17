@@ -1,4 +1,5 @@
-﻿namespace DataAccessLayer.Enums;
+﻿namespace Shared.Enums;
+
 
 public enum AppointmentStatus
 {

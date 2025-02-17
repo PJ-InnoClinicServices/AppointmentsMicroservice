@@ -1,6 +1,5 @@
 ﻿using DataAccessLayer.Entities;
-using DataAccessLayer.IRepositories;
-using Microsoft.EntityFrameworkCore;
+using DataAccessLayer.Interfaces.IRepositories;
 
 namespace DataAccessLayer.Repositories
 {
@@ -12,8 +11,7 @@ namespace DataAccessLayer.Repositories
         {
             _context = context;
         }
-
-        // Pobierz wizytę po Id
+        
         public async Task<Appointment> GetByIdAsync(Guid id)
         {
             return await _context.Appointments
@@ -22,7 +20,12 @@ namespace DataAccessLayer.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        // Pobierz wizyty dla konkretnego pacjenta
+        public async Task<IEnumerable<Appointment>> GetAllAsync()
+        {
+            return await _context.Appointments.ToListAsync();
+        }
+
+
         public async Task<IEnumerable<Appointment>> GetAppointmentsForPatientAsync(Guid patientId)
         {
             return await _context.Appointments
@@ -31,8 +34,7 @@ namespace DataAccessLayer.Repositories
                 .Where(a => a.PatientId == patientId)
                 .ToListAsync();
         }
-
-        // Pobierz wizyty dla konkretnego lekarza
+        
         public async Task<IEnumerable<Appointment>> GetAppointmentsForDoctorAsync(Guid doctorId)
         {
             return await _context.Appointments
@@ -41,25 +43,17 @@ namespace DataAccessLayer.Repositories
                 .Where(a => a.DoctorId == doctorId)
                 .ToListAsync();
         }
-
-
-
-        // Dodaj nową wizytę
+        
         public async Task CreateAsync(Appointment appointment)
         {
             await _context.Appointments.AddAsync(appointment);
             await _context.SaveChangesAsync();
         }
-
-        // Zaktualizuj wizytę
         public async Task UpdateAsync(Appointment appointment)
         {
             _context.Appointments.Update(appointment);
             await _context.SaveChangesAsync();
         }
-
-
-        // Usuń wizytę
         public async Task DeleteAsync(Guid id)
         {
             var appointment = await _context.Appointments.FindAsync(id);

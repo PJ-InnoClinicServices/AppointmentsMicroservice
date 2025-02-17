@@ -1,6 +1,5 @@
 ﻿using DataAccessLayer.Entities;
-using DataAccessLayer.IRepositories;
-using Microsoft.EntityFrameworkCore;
+using DataAccessLayer.Interfaces.IRepositories;
 
 namespace DataAccessLayer.Repositories
 {
@@ -41,6 +40,16 @@ namespace DataAccessLayer.Repositories
         {
             _context.Doctors.Update(doctor);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor != null)
+            {
+                _context.Doctors.Remove(doctor);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteAsync(int id)
