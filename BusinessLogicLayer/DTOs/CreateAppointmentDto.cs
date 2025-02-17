@@ -1,6 +1,6 @@
 ﻿namespace BusinessLogicLayer.DTOs;
 
-public class CreateAppointmentDto
+public record CreateAppointmentDto
 {
     public Guid PatientId { get; set; }        
     public Guid DoctorId { get; set; }        

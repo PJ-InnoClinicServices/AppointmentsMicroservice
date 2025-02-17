@@ -1,6 +1,6 @@
 ﻿namespace BusinessLogicLayer.DTOs;
 
-public class UpdateAppointmentDto
+public record UpdateAppointmentDto
 {
     public Guid Id { get; set; }             
     public Guid PatientId { get; set; }   

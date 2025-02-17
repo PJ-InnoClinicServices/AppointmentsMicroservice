@@ -1,14 +1,14 @@
 ﻿namespace BusinessLogicLayer.DTOs;
 
-public class AppointmentDto
+public record AppointmentDto
 {
-    public Guid Id { get; set; }              // Id wizyty
-    public Guid PatientId { get; set; }        // Id pacjenta
-    public string PatientName { get; set; }    // Imię pacjenta
-    public Guid DoctorId { get; set; }         // Id lekarza
-    public string DoctorName { get; set; }     // Imię lekarza
-    public Guid PlaceId { get; set; }          // Id miejsca
-    public string PlaceName { get; set; }      // Nazwa miejsca
-    public DateTime AppointmentDate { get; set; } // Data i godzina wizyty
-    public string Status { get; set; }         // Status wizyty (np. "Scheduled", "Completed")
+    public Guid Id { get; set; }           
+    public Guid PatientId { get; set; }      
+    public string PatientName { get; set; }    
+    public Guid DoctorId { get; set; }         
+    public string DoctorName { get; set; }    
+    public Guid PlaceId { get; set; }     
+    public string PlaceName { get; set; }     
+    public DateTime AppointmentDate { get; set; } 
+    public string Status { get; set; }         
 }

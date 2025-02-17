@@ -54,8 +54,7 @@ public class AppointmentService : IAppointmentService
             {
                 throw new Exception("Appointment not found.");
             }
-
-            // Aktualizowanie wizyty
+            
             appointment.PatientId = updateAppointmentDto.PatientId;
             appointment.DoctorId = updateAppointmentDto.DoctorId;
             appointment.PlaceId = updateAppointmentDto.PlaceId;

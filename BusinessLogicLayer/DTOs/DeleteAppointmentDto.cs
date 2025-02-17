@@ -1,6 +1,6 @@
 ﻿namespace BusinessLogicLayer.DTOs;
 
-public class DeleteAppointmentDto
+public record DeleteAppointmentDto
 {
     public Guid Id { get; set; } 
 }
