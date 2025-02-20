@@ -1,67 +1,93 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces.IRepositories;
+using Microsoft.EntityFrameworkCore;
+using Shared.DTOs.Appointment;
 
 namespace DataAccessLayer.Repositories
 {
-    public class AppointmentRepository : IAppointmentRepository
+    public class AppointmentRepository(IDbContextFactory<ApplicationDbContext> contextFactory) : IAppointmentRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public AppointmentRepository(ApplicationDbContext context)
+        public async Task<AppointmentEntity> GetByIdAsync(Guid id)
         {
-            _context = context;
-        }
-        
-        public async Task<Appointment> GetByIdAsync(Guid id)
-        {
-            return await _context.Appointments
-                .Include(a => a.Patient)  
-                .Include(a => a.Doctor)   
+            using var context = contextFactory.CreateDbContext();
+            return await context.Appointments
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task<IEnumerable<Appointment>> GetAllAsync()
+        public async Task<IEnumerable<AppointmentEntity>> GetAllAsync()
         {
-            return await _context.Appointments.ToListAsync();
+            using var context = contextFactory.CreateDbContext();
+            return await context.Appointments
+                .ToListAsync();
+
         }
 
-
-        public async Task<IEnumerable<Appointment>> GetAppointmentsForPatientAsync(Guid patientId)
+        public async Task CreateAsync(CreateAppointmentDto entity)
         {
-            return await _context.Appointments
-                .Include(a => a.Patient)
-                .Include(a => a.Doctor)
+            using var context = contextFactory.CreateDbContext();
+
+            var appointment = new AppointmentEntity
+            {
+                Id = Guid.NewGuid(),
+                PatientId = entity.PatientId,
+                DoctorId = entity.DoctorId,
+                AppointmentDate = entity.AppointmentDate,
+    
+            };
+
+            await context.Appointments.AddAsync(appointment);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(UpdateAppointmentDto entity)
+        {
+            using var context = contextFactory.CreateDbContext();
+
+            var appointment = await context.Appointments.FindAsync(entity.Id);
+            if (appointment != null)
+            {
+                appointment.PatientId = entity.PatientId;
+                appointment.DoctorId = entity.DoctorId;
+                appointment.AppointmentDate = entity.AppointmentDate;
+                context.Appointments.Update(appointment);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            using var context = contextFactory.CreateDbContext();
+            var appointment = await context.Appointments.FindAsync(id);
+            if (appointment != null)
+            {
+                context.Appointments.Remove(appointment);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<AppointmentEntity>> GetAppointmentsForPatientAsync(Guid patientId)
+        {
+            using var context = contextFactory.CreateDbContext();
+            return await context.Appointments
                 .Where(a => a.PatientId == patientId)
                 .ToListAsync();
         }
-        
-        public async Task<IEnumerable<Appointment>> GetAppointmentsForDoctorAsync(Guid doctorId)
+
+        public async Task<IEnumerable<AppointmentEntity>> GetAppointmentsForDoctorAsync(Guid doctorId)
         {
-            return await _context.Appointments
-                .Include(a => a.Patient)
-                .Include(a => a.Doctor)
+            using var context = contextFactory.CreateDbContext();
+            return await context.Appointments
                 .Where(a => a.DoctorId == doctorId)
                 .ToListAsync();
         }
-        
-        public async Task CreateAsync(Appointment appointment)
+
+        public async Task<IEnumerable<AppointmentEntity>> GetAppointmentsByPlaceAsync(Guid patientId)
         {
-            await _context.Appointments.AddAsync(appointment);
-            await _context.SaveChangesAsync();
-        }
-        public async Task UpdateAsync(Appointment appointment)
-        {
-            _context.Appointments.Update(appointment);
-            await _context.SaveChangesAsync();
-        }
-        public async Task DeleteAsync(Guid id)
-        {
-            var appointment = await _context.Appointments.FindAsync(id);
-            if (appointment != null)
-            {
-                _context.Appointments.Remove(appointment);
-                await _context.SaveChangesAsync();
-            }
+            using var context = contextFactory.CreateDbContext();
+
+            return await context.Appointments
+                .Where(a => a.PatientId == patientId)
+                .ToListAsync();
         }
     }
 }
