@@ -2,7 +2,7 @@
 
 namespace DataAccessLayer.Entities;
 
-public record AppointmentEntity
+public class AppointmentEntity
 {
     public Guid Id { get; set; }
     public DateTime AppointmentDate { get; set; }
