@@ -1,22 +1,16 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Interfaces.IServices;
+using BusinessLogicLayer.Services;
 using DataAccessLayer.Entities;
 using Shared.DTOs.Appointment;
 using DataAccessLayer.Enums;
 
 namespace BusinessLogicLayer.Schema.Mutations
 {
-    public class Mutation
+    public class Mutation(IAppointmentService appointmentService)
     {
-        private readonly AppointmentService _appointmentService;
-
-        public Mutation(AppointmentService appointmentService)
-        {
-            _appointmentService = appointmentService;
-        }
-        
         public async Task<AppointmentEntity> CreateAppointmentAsync(CreateAppointmentDto dto)
         {
-            await _appointmentService.CreateAsync(dto);
+            await appointmentService.CreateAsync(dto);
             return new AppointmentEntity
             {
                 PatientId = dto.PatientId,
@@ -29,7 +23,7 @@ namespace BusinessLogicLayer.Schema.Mutations
         
         public async Task<AppointmentEntity> UpdateAppointmentAsync(UpdateAppointmentDto dto)
         {
-            await _appointmentService.UpdateAsync(dto);
+            await appointmentService.UpdateAsync(dto);
             return new AppointmentEntity
             {
                 Id = dto.Id,
@@ -43,7 +37,7 @@ namespace BusinessLogicLayer.Schema.Mutations
         
         public async Task<bool> DeleteAppointmentAsync(Guid id)
         {
-            await _appointmentService.DeleteAsync(id);
+            await appointmentService.DeleteAsync(id);
             return true; 
         }
     }

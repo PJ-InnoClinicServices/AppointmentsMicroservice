@@ -7,15 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BusinessLogicLayer.AppExtensions
 {
-    public class ConfigureGraphQl
+    public class ConfigureGraphQl(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
-
-        public ConfigureGraphQl(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
         public void Configure(IServiceCollection services)
         { 
             services.AddGraphQLServer()
@@ -24,7 +17,7 @@ namespace BusinessLogicLayer.AppExtensions
                 .AddDiagnosticEventListener<ErrorLoggingDiagnosticsEventListener>();
             
             services.AddPooledDbContextFactory<ApplicationDbContext>(options => 
-                options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
         }
         
         public static void ApplyMigrations(IServiceProvider serviceProvider)

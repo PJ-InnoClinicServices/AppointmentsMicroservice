@@ -28,10 +28,12 @@ namespace DataAccessLayer.Repositories
 
             var appointment = new AppointmentEntity
             {
-                Id = Guid.NewGuid(),
+                AppointmentDate = entity.AppointmentDate,
+                Status = entity.Status,
+                Reason = entity.Reason,
                 PatientId = entity.PatientId,
                 DoctorId = entity.DoctorId,
-                AppointmentDate = entity.AppointmentDate,
+                PlaceId = entity.PlaceId,
     
             };
 
