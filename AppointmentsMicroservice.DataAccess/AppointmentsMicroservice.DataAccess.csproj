@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>DataAccessLayer</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\AppointmentsMicroservice.Shared\AppointmentsMicroservice.Shared.csproj" />
     </ItemGroup>
 
 </Project>

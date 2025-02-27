@@ -13,8 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
-      <ProjectReference Include="..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\AppointmentsMicroservice.BusinessLogic\AppointmentsMicroservice.BusinessLogic.csproj" />
+      <ProjectReference Include="..\AppointmentsMicroservice.Shared\AppointmentsMicroservice.Shared.csproj" />
     </ItemGroup>
 
 </Project>

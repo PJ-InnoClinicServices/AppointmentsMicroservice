@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <NoWarn>$(NoWarn);NU1605</NoWarn>
+        <RootNamespace>BusinessLogicLayer</RootNamespace>
     </PropertyGroup>
 
  
@@ -23,8 +24,8 @@
  
 
     <ItemGroup>
-      <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
-      <ProjectReference Include="..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\AppointmentsMicroservice.DataAccess\AppointmentsMicroservice.DataAccess.csproj" />
+      <ProjectReference Include="..\AppointmentsMicroservice.Shared\AppointmentsMicroservice.Shared.csproj" />
     </ItemGroup>
 
  

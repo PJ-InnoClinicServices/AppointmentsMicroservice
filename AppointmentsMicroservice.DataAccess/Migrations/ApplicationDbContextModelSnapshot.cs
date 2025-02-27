@@ -22,7 +22,7 @@ namespace DataAccessLayer.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Appointment", b =>
+            modelBuilder.Entity("AppointmentsMicroservice.DataAccess.Entities.Appointment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Doctor", b =>
+            modelBuilder.Entity("AppointmentsMicroservice.DataAccess.Entities.Doctor", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +89,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Doctors");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Patient", b =>
+            modelBuilder.Entity("AppointmentsMicroservice.DataAccess.Entities.Patient", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Patients");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Place", b =>
+            modelBuilder.Entity("AppointmentsMicroservice.DataAccess.Entities.Place", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -138,21 +138,21 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Places");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Appointment", b =>
+            modelBuilder.Entity("AppointmentsMicroservice.DataAccess.Entities.Appointment", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.Doctor", "Doctor")
+                    b.HasOne("AppointmentsMicroservice.DataAccess.Entities.Doctor", "Doctor")
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccessLayer.Entities.Patient", "Patient")
+                    b.HasOne("AppointmentsMicroservice.DataAccess.Entities.Patient", "Patient")
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccessLayer.Entities.Place", "Place")
+                    b.HasOne("AppointmentsMicroservice.DataAccess.Entities.Place", "Place")
                         .WithMany("Appointments")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -165,17 +165,17 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Place");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Doctor", b =>
+            modelBuilder.Entity("AppointmentsMicroservice.DataAccess.Entities.Doctor", b =>
                 {
                     b.Navigation("Appointments");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Patient", b =>
+            modelBuilder.Entity("AppointmentsMicroservice.DataAccess.Entities.Patient", b =>
                 {
                     b.Navigation("Appointments");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Place", b =>
+            modelBuilder.Entity("AppointmentsMicroservice.DataAccess.Entities.Place", b =>
                 {
                     b.Navigation("Appointments");
                 });
