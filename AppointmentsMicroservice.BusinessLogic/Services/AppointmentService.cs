@@ -1,10 +1,14 @@
 ﻿using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces.IRepositories;
+using MassTransit;
 using Shared.DTOs.Appointment;
+using Shared.DTOs.Doctor;
+
 namespace BusinessLogicLayer.Services
 { 
-    public class AppointmentService(IAppointmentRepository appointmentRepository) : IAppointmentService
+    public class AppointmentService(IAppointmentRepository appointmentRepository,
+        IRequestClient<DoctorExistsRequest> client) : IAppointmentService
     {
         public async Task<IEnumerable<AppointmentEntity>> GetAllAsync()
         {
@@ -18,6 +22,11 @@ namespace BusinessLogicLayer.Services
         
         public async Task CreateAsync(CreateAppointmentDto dto)
         {
+            var response = await client.GetResponse<DoctorExistsResponse>(new DoctorExistsRequest { DoctorId = dto.DoctorId });
+            if (response.Message.Exists == false)
+            {
+            throw new ApplicationException("Doctor does not exist");
+            }
             await appointmentRepository.CreateAsync(dto);
         }
         

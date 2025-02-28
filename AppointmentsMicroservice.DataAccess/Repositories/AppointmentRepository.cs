@@ -1,11 +1,18 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces.IRepositories;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.DTOs.Appointment;
+using Shared.DTOs.Doctor;
 
 namespace DataAccessLayer.Repositories
 {
-    public class AppointmentRepository(IDbContextFactory<ApplicationDbContext> contextFactory) : IAppointmentRepository
+    public class AppointmentRepository(IDbContextFactory<ApplicationDbContext> contextFactory, 
+        ISendEndpointProvider sendEndpointProvider,
+        IRequestClient<DoctorExistsResponse> client
+        ) : IAppointmentRepository
     {
         public async Task<AppointmentEntity> GetByIdAsync(Guid id)
         {
@@ -21,24 +28,24 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
 
         }
-
+        
         public async Task CreateAsync(CreateAppointmentDto entity)
         {
-            using var context = contextFactory.CreateDbContext();
-
-            var appointment = new AppointmentEntity
-            {
-                AppointmentDate = entity.AppointmentDate,
-                Status = entity.Status,
-                Reason = entity.Reason,
-                PatientId = entity.PatientId,
-                DoctorId = entity.DoctorId,
-                PlaceId = entity.PlaceId,
-    
-            };
-
-            await context.Appointments.AddAsync(appointment);
-            await context.SaveChangesAsync();
+                 using var context = contextFactory.CreateDbContext();
+                 
+                 var appointment = new AppointmentEntity
+                 {
+                     AppointmentDate = entity.AppointmentDate,
+                     Status = entity.Status,
+                     Reason = entity.Reason,
+                     PatientId = entity.PatientId,
+                     DoctorId = entity.DoctorId,
+                     PlaceId = entity.PlaceId,
+                 
+                 };
+                 
+                 await context.Appointments.AddAsync(appointment);
+                 await context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(UpdateAppointmentDto entity)
