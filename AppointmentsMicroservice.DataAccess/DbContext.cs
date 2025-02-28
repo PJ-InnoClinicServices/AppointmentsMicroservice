@@ -3,13 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer
 {
- public class ApplicationDbContext : DbContext
-    {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
-        public DbSet<AppointmentEntity> Appointments { get; set; }
+ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+ {
+     public DbSet<AppointmentEntity> Appointments { get; set; }
 
         
     }

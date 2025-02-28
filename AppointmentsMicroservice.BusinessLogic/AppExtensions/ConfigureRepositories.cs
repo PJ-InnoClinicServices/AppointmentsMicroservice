@@ -3,13 +3,12 @@ using DataAccessLayer.Interfaces.IRepositories;
 using DataAccessLayer.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BusinessLogicLayer.AppExtensions
+namespace BusinessLogicLayer.AppExtensions;
+
+public static class ConfigureRepositories
 {
-    public static class ConfigureRepositories
+    public static void AddRepositories(this IServiceCollection services)
     {
-        public static void AddRepositories(this IServiceCollection services)
-        {
-            services.AddScoped<IAppointmentRepository, AppointmentRepository>();
-        }
+        services.AddScoped<IAppointmentRepository, AppointmentRepository>();
     }
 }
